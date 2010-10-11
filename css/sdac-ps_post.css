@@ -1,0 +1,11 @@
+/* Custom Post CSS for SDAC Post Slideshows */
+
+#sdac_ps {width:575px;height:304px;background:#eee;overflow:hidden;border:1px solid #bbb;}
+#sdac_ps .sdac_ps_slide {width:575px;height:304px;overflow:hidden;padding:2px;}
+#sdac_ps .sdac_ps_image {float:left;display:inline;width:300px;margin-right:10px;overflow:hidden;}
+#sdac_ps .sdac_ps_text {float:left;display:inline;width:250px;}
+
+#sdac_ps_nav {margin:10px 0 10px 0;}
+#sdac_ps_nav a {border: 1px solid #ccc; background: #eee; text-decoration: none; margin: 0 5px 0 0; padding: 3px 5px 3px 5px;}
+#sdac_ps_nav a.activeSlide {background: #ddd;}
+#sdac_ps_nav a:focus {outline: none;}
