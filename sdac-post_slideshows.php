@@ -2,7 +2,7 @@
 /*
 Plugin Name: SDAC Post Slideshow
 Plugin URI: http://www.sandboxdev.com/blog-and-cms-development/wordpress/wordpress-plugins/
-Description: SDAC Post Slideshow
+Description: The SDAC Post Slideshows plugin allows you to easily add customizable slideshows into your posts using jQuery Cycle.
 Author: Jennifer Zelazny/SDAC Inc.
 Version: 1.0
 Author URI: http://www.sandboxdev.com

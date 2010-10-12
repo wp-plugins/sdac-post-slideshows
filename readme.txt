@@ -7,7 +7,7 @@ Stable tag: 1.0
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4761649
 
 == Description ==
-The SDAC Post Slideshows plugin allows you to easily add customizable slideshows into your posts and pages.
+The SDAC Post Slideshows plugin allows you to easily add customizable slideshows into your posts using jQuery Cycle.
 
 == Installation ==
 1. Unzip into your `/wp-content/plugins/` directory. If you're uploading it make sure to upload
