@@ -43,7 +43,7 @@ Yes - just fill in the information you need when creating a slide and set the ap
 
 
 == Changelog ==
-= 1.1 =
+= 1.0.1 =
 * (November 3, 2010)
 * Added in html_entity_decode() for the slide text
 * Changed the slide show CSS to use classes instead of IDs to be valid XHTML if there are multiple slideshows on a page
