@@ -12,10 +12,6 @@
 #sdac_ps .sdac_ps_field div {margin-top:5px;padding-top:5px;border-top:1px solid #ddd;}
 
 #sdac_ps #sdac_ps_general {float:left;border-bottom:1px solid #ccc;width:100%;margin-bottom:10px;}
-#sdac_ps #sdac_ps_general h4, #sdac_ps #sdac_ps_general p {margin:0 0 5px 0;padding:0;}
-#sdac_ps #sdac_ps_general div {width:32%;float:left;display:inline; height:32px;line-height:32px;}
+#sdac_ps #sdac_ps_general div {width:24%;float:left;display:inline; height:32px;line-height:32px;}
 #sdac_ps #sdac_ps_general div label {width:80px;}
 #sdac_ps #sdac_ps_general div input {width:50px;}
-
-
-#sdac_ps #sdac_ps_general #sdac_overrides {float:left;height:115px;width:100%;clear:both;}
