@@ -1,9 +1,9 @@
 === SDAC Post Slideshows ===
-Tags: slideshow, slideshows, post slideshow, jQuery, jQuery Cycle
+Tags: slideshow, slideshows, post slideshow, jQuery, jQuery Cycle, cycle
 Contributors: jenz
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 1.0
+Stable tag: 1.0.1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4761649
 
 == Description ==
@@ -25,6 +25,15 @@ Click on the HTML tab in the editor and you will see it.
 = Where can I get support for this plugin?
 You can submit any issues/feedback: http://sandboxdev.com/forums/forum/sdac-post-slideshows
 
+= Do all slideshows have the same width/height?
+No. You can easily change the size of your slideshow for each post by adjusting the general settings within the post.
+
+= How many slides can we have?
+As many as you want - just add more as needed.
+
+= Can I use just images in the slideshow or just text?
+Yes - just fill in the information you need when creating a slide and set the appropriate widths in the general settings.
+
 
 == Screenshots ==
 
@@ -34,8 +43,13 @@ You can submit any issues/feedback: http://sandboxdev.com/forums/forum/sdac-post
 
 
 == Changelog ==
+= 1.1 =
+* (November 3, 2010)
+* Added in html_entity_decode() for the slide text
+* Changed the slide show CSS to use classes instead of IDs to be valid XHTML if there are multiple slideshows on a page
+* Updated the FAQs
 
- = 1.0 =
+= 1.0 =
 * (October 7, 2010)
 * Released with essential functionality
 
