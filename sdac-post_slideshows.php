@@ -5,7 +5,7 @@ Plugin URI: http://www.sandboxdev.com
 Description: SDAC Post Slideshow
 Author: Jennifer Zelazny/SDAC Inc.
 Author URI: http://www.sandboxdev.com
-Version: 1.0.1
+Version: 1.0.2
 ---------------------------------------------------
 Released under the GPL license
 http://www.opensource.org/licenses/gpl-license.php
@@ -32,7 +32,8 @@ function sdac_ps_quicktags() {
 # SDAC POST CUSTOM FIELDS
 add_action( 'admin_menu', 'sdac_ps_post_meta_box' );
 function sdac_ps_post_meta_box() {
-	$sdac_options = add_meta_box( 'sdac_ps_url', 'Post Slideshow', 'sdac_ps_meta_box', 'post', 'normal', 'high' );
+	$sdac_post_options = add_meta_box( 'sdac_ps_url', 'Post Slideshow', 'sdac_ps_meta_box', 'post', 'normal', 'high' );
+	$sdac_page_options = add_meta_box( 'sdac_ps_url', 'Page Slideshow', 'sdac_ps_meta_box', 'page', 'normal', 'high' );
 }
 
 # LOAD CUSTOM STYLES IN CUSTOM ADMIN
@@ -94,26 +95,30 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 		<h4>General Settings</h4>
 		<p>By default, the slideshows are 575px wide x 304px high.  The image is set to 300px x 300px.  The text area is 250px wide.</p>
 		<h4>Override Defaults</h4>
-		<div>
-			<label>Slide Width:</label>
-			<input type="text" name="sdac_ps_slide_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_slide_width_override ); ?>">
+		<div id="left_widths">
+			<div>
+				<label>Slide Width:</label>
+				<input type="text" name="sdac_ps_slide_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_slide_width_override ); ?>">
+			</div>
+			<div>
+				<label>Slide Height:</label>
+				<input type="text" name="sdac_ps_slide_height_override" class="text" value="<?php echo esc_attr( $sdac_ps_slide_height_override ); ?>">
+			</div>
+			<div>
+				<label>Image Width:</label>
+				<input type="text" name="sdac_ps_image_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_image_width_override ); ?>">
+			</div>
 		</div>
-		<div>
-			<label>Slide Height:</label>
-			<input type="text" name="sdac_ps_slide_height_override" class="text" value="<?php echo esc_attr( $sdac_ps_slide_height_override ); ?>">
-		</div>
-		<div>
-			<label>Image Width:</label>
-			<input type="text" name="sdac_ps_image_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_image_width_override ); ?>">
-		</div>
-		<div>
-			<label>Image Height:</label>
-			<input type="text" name="sdac_ps_image_height_override" class="text" value="<?php echo esc_attr( $sdac_ps_image_height_override ); ?>">
-		</div>
-		<div>
-			<label>Text Width:</label>
-			<input type="text" name="sdac_ps_text_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_text_width_override ); ?>">
-		</div>
+		<div id="right_widths">
+			<div>
+				<label>Image Height:</label>
+				<input type="text" name="sdac_ps_image_height_override" class="text" value="<?php echo esc_attr( $sdac_ps_image_height_override ); ?>">
+			</div>
+			<div>
+				<label>Text Width:</label>
+				<input type="text" name="sdac_ps_text_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_text_width_override ); ?>">
+			</div>
+		</div>	
 	</div>
 	<div id="add"><a href="#" class="sdac_ps_add">Add Another Slide (+)</a></div>
 		<?php if ( count($sdac_ps_title) > 0 ) : foreach ( $sdac_ps_title as $i => $title ) :  if ( $i % 2 ) $class = 'even'; else $class = 'odd'; ?>
@@ -174,6 +179,12 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 			});
 		}
 		$(".sdac_ps_add").unbind("click").click(function(){
+			if ( $(".sdac_ps_field").size() >= 25 ) {
+				if ( $(".note", $(this).parent()).size() <= 0 ) {
+					$(this).parent().append('<span class="note" style="padding-left:1em;color:#c22;">You may only create up to 25 custom slides.</span>');
+				}
+				return false;
+			}
 			var new_field = $(".sdac_ps_field:first").clone();
 			$(".sdac_ps_field:first").parent().append(new_field);
 			$("input", new_field).val('');
@@ -211,39 +222,39 @@ function sdac_ps_save_meta( $post_id ) {
 	
 	$sdac_ps_excerpt = array();
 	foreach ( $_POST['sdac_ps_excerpt'] as $i => $excerpt ) {
-		$sdac_ps_excerpt[] = esc_attr( $excerpt );
+		$sdac_ps_excerpt[] = wp_filter_post_kses( $excerpt );
 	}
 	update_post_meta( $post_id, 'sdac_ps_excerpt', $sdac_ps_excerpt );
 	
 	$sdac_ps_url = array();
 	foreach ( $_POST['sdac_ps_url'] as $i => $url ) {
-		$sdac_ps_url[] = esc_url ( $url );
+		$sdac_ps_url[] = esc_url_raw ( $url );
 	}
 	update_post_meta( $post_id, 'sdac_ps_url', $sdac_ps_url );
 	
 	$sdac_ps_image_url = array();
 	foreach ( $_POST['sdac_ps_image_url'] as $i => $image_url ) {
-		$sdac_ps_image_url[] = esc_url ( $image_url );
+		$sdac_ps_image_url[] = esc_url_raw ( $image_url );
 	}
 	update_post_meta( $post_id, 'sdac_ps_image_url', $sdac_ps_image_url );
 	
-	$sdac_ps_slide_width_override = esc_attr( $_POST['sdac_ps_slide_width_override'] );
+	$sdac_ps_slide_width_override = absint( $_POST['sdac_ps_slide_width_override'] );
 		if ( !add_post_meta( $post_id, 'sdac_ps_slide_width_override', $sdac_ps_slide_width_override, true ) ) {
 			update_post_meta( $post_id, 'sdac_ps_slide_width_override', $sdac_ps_slide_width_override );		
 		}
-	$sdac_ps_slide_height_override = esc_attr( $_POST['sdac_ps_slide_height_override'] );
+	$sdac_ps_slide_height_override = absint( $_POST['sdac_ps_slide_height_override'] );
 		if ( !add_post_meta( $post_id, 'sdac_ps_slide_height_override', $sdac_ps_slide_height_override, true ) ) {
 			update_post_meta( $post_id, 'sdac_ps_slide_height_override', $sdac_ps_slide_height_override );		
 		}
-	$sdac_ps_image_width_override = esc_attr( $_POST['sdac_ps_image_width_override'] );
+	$sdac_ps_image_width_override = absint( $_POST['sdac_ps_image_width_override'] );
 		if ( !add_post_meta( $post_id, 'sdac_ps_image_width_override', $sdac_ps_image_width_override, true ) ) {
 			update_post_meta( $post_id, 'sdac_ps_image_width_override', $sdac_ps_image_width_override );		
 		}
-	$sdac_ps_image_height_override = esc_attr( $_POST['sdac_ps_image_height_override'] );
+	$sdac_ps_image_height_override = absint( $_POST['sdac_ps_image_height_override'] );
 		if ( !add_post_meta( $post_id, 'sdac_ps_image_height_override', $sdac_ps_image_height_override, true ) ) {
 			update_post_meta( $post_id, 'sdac_ps_image_height_override', $sdac_ps_image_height_override );		
 		}
-	$sdac_ps_text_width_override = esc_attr( $_POST['sdac_ps_text_width_override'] );
+	$sdac_ps_text_width_override = absint( $_POST['sdac_ps_text_width_override'] );
 		if ( !add_post_meta( $post_id, 'sdac_ps_text_width_override', $sdac_ps_text_width_override, true ) ) {
 			update_post_meta( $post_id, 'sdac_ps_text_width_override', $sdac_ps_text_width_override );		
 		}	
@@ -285,23 +296,23 @@ function sdac_ps_wp_head() {
 	// Add in CSS Overrides (if any)
 	if ( get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ) || get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ) || get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ) || get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ) || get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ) ) {
 		if ( get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_slide {width:'.get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ).'px !important;}
+			$style .= '.sdac_ps .sdac_ps_slide {width:'.absint( get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ) ).'px !important;}
 			';
 		}
 		if ( get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_slide {height:'.get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ).'px !important;}
+			$style .= '.sdac_ps .sdac_ps_slide {height:'.absint( get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ) ).'px !important;}
 			';
 		}
 		if ( get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_image {width:'.get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ).'px !important;}
+			$style .= '.sdac_ps .sdac_ps_image {width:'.absint( get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ) ).'px !important;}
 			';
 		}
 		if ( get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_image {height:'.get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ).'px !important;}
+			$style .= '.sdac_ps .sdac_ps_image {height:'.absint( get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ) ).'px !important;}
 			';
 		}
 		if ( get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_text {width:'.get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ).'px !important;}
+			$style .= '.sdac_ps .sdac_ps_text {width:'.absint( get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ) ).'px !important;}
 			';
 		}
 		echo '<style type="text/css">
@@ -316,6 +327,7 @@ function sdac_ps_wp_head() {
 add_shortcode( 'post-slideshow', 'sdac_ps_output' );
 function sdac_ps_output() {
 	global $post;
+	$slides ='';
 	if ( get_post_meta($post->ID, 'sdac_ps_title', true) ) {
 		foreach ( get_post_meta($post->ID, 'sdac_ps_title', true ) as $i => $title ) {
 			$excerpt = get_post_meta($post->ID, 'sdac_ps_excerpt', true );
@@ -324,14 +336,14 @@ function sdac_ps_output() {
  			$slides .= '
  				<div class="sdac_ps_slide">
  					<div class="sdac_ps_image">
- 						<img src="'.$image_url[$i].'" alt="'.$title.'" />
+ 						<img src="'.esc_url( $image_url[$i] ).'" alt="'.esc_attr( $title ).'" />
  					</div>
  					<div class="sdac_ps_text">
  					';
  					if ( $url[$i] ) { 
- 						$slides .= '<h3><a href="'.$url[$i].'">'.$title.'</a></h3>';
+ 						$slides .= '<h3><a href="'.esc_url( $url[$i] ).'">'.esc_attr( $title ).'</a></h3>';
  					} else {
- 						$slides .= '<h3>'.$title.'</h3>';
+ 						$slides .= '<h3>'.esc_attr( $title ).'</h3>';
  					}
  					$slides .= '<p>'.html_entity_decode( $excerpt[$i], ENT_QUOTES ).'</p>
  					</div>

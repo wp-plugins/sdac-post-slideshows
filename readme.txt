@@ -1,10 +1,12 @@
 === SDAC Post Slideshows ===
-Tags: slideshow, slideshows, post slideshow, jQuery, jQuery Cycle, cycle
+Tags: slideshow, slideshows, post slideshow, jQuery, jQuery Cycle, cycle, shortcode
 Contributors: jenz
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 1.0.1
+Tested up to: 3.1
+Stable tag: 1.0.2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4761649
+
+Highly customizable slideshows for your posts and pages using jQuery Cycle.
 
 == Description ==
 The SDAC Post Slideshows plugin allows you to easily add customizable slideshows into your posts using jQuery Cycle.
@@ -43,6 +45,13 @@ Yes - just fill in the information you need when creating a slide and set the ap
 
 
 == Changelog ==
+= 1.0.2 =
+* (February 7, 2011)
+* Fixed an undefined index error
+* Changed the input/output validation
+* Added the slideshow option to pages
+* Updated jQuery Cycle to 2.9.4
+
 = 1.0.1 =
 * (November 3, 2010)
 * Added in html_entity_decode() for the slide text
@@ -54,6 +63,12 @@ Yes - just fill in the information you need when creating a slide and set the ap
 * Released with essential functionality
 
 == Upgrade Notice ==
+
+ = 1.0.2 =
+Slideshows now are available on pages
+
+ = 1.0.1 =
+Minor Updates
 
  = 1.0 =
 First release of plugin
