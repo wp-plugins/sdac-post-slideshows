@@ -5,7 +5,7 @@ Plugin URI: http://www.sandboxdev.com
 Description: SDAC Post Slideshow
 Author: Jennifer Zelazny/SDAC Inc.
 Author URI: http://www.sandboxdev.com
-Version: 1.0.2
+Version: 1.1
 ---------------------------------------------------
 Released under the GPL license
 http://www.opensource.org/licenses/gpl-license.php
@@ -67,6 +67,12 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 		if ( !is_array( $sdac_ps_image_url ) || count( $sdac_ps_image_url ) <= 0 ) {
 			$sdac_ps_image_url = array( '' );
 		}
+		$sdac_ps_slideshow_bg_color_override = (string) get_post_meta( $post_id, 'sdac_ps_slideshow_bg_color_override', true );
+		$sdac_ps_slideshow_border_color_override = (string) get_post_meta( $post_id, 'sdac_ps_slideshow_border_color_override', true );
+		$sdac_ps_fx_override = (string) get_post_meta( $post_id, 'sdac_ps_fx_override', true );
+		$sdac_ps_timeout_override = (string) get_post_meta( $post_id, 'sdac_ps_timeout_override', true );
+		$sdac_ps_speed_override = (string) get_post_meta( $post_id, 'sdac_ps_speed_override', true );
+		$sdac_ps_pause_override = (string) get_post_meta( $post_id, 'sdac_ps_pause_override', true );
 		$sdac_ps_slide_width_override = (string) get_post_meta( $post_id, 'sdac_ps_slide_width_override', true );
 		$sdac_ps_slide_height_override = (string) get_post_meta( $post_id, 'sdac_ps_slide_height_override', true );
 		$sdac_ps_image_width_override = (string) get_post_meta( $post_id, 'sdac_ps_image_width_override', true );
@@ -78,6 +84,18 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 		$sdac_ps_excerpt = array( '' );
 		$sdac_ps_url = array( '' );
 		$sdac_ps_image_url = array( '' );
+		$sdac_ps_slideshow_bg_color_override = '';
+        $sdac_ps_slideshow_bg_color_override = format_to_edit( $sdac_ps_slideshow_bg_color_override );
+        $sdac_ps_slideshow_border_color_override = '';
+        $sdac_ps_slideshow_border_color_override = format_to_edit( $sdac_ps_slideshow_border_color_override );
+		$sdac_ps_fx_override = '';
+        $sdac_ps_fx_override = format_to_edit( $sdac_ps_fx_override );
+        $sdac_ps_timeout_override = '';
+        $sdac_ps_timeout_override = format_to_edit( $sdac_ps_timeout_override );
+        $sdac_ps_speed_override = '';
+        $sdac_ps_speed_override = format_to_edit( $sdac_ps_speed_override );
+        $sdac_ps_pause_override = '';
+        $sdac_ps_pause_override = format_to_edit( $sdac_ps_pause_override );
 		$sdac_ps_slide_width_override = '';
         $sdac_ps_slide_width_override = format_to_edit( $sdac_ps_slide_width_override );
         $sdac_ps_slide_height_override = '';
@@ -93,32 +111,77 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 <div id="sdac_ps">
 	<div id="sdac_ps_general">
 		<h4>General Settings</h4>
-		<p>By default, the slideshows are 575px wide x 304px high.  The image is set to 300px x 300px.  The text area is 250px wide.</p>
-		<h4>Override Defaults</h4>
-		<div id="left_widths">
+		<p>Slideshow and <span class="info"><strong>slide defaults are in grey</strong></span> next to the labels below.</p>
+		<p>Find out more about jQuery Cycle's  <a href="http://jquery.malsup.com/cycle/options.html" target="_blank">slideshow options</a>.</p>
+		<div class="sdac_ps_col">
+			<h4>Override Slideshow Defaults</h4>
 			<div>
-				<label>Slide Width:</label>
+				<label>Background Color: <span class="info">#ddd</span></label>
+				<input type="text" name="sdac_ps_slideshow_bg_color_override" class="text" value="<?php echo esc_attr( $sdac_ps_slideshow_bg_color_override ); ?>">
+			</div>
+			<div>
+				<label>Border Color: <span class="info">#bbb</span></label>
+				<input type="text" name="sdac_ps_slideshow_border_color_override" class="text" value="<?php echo esc_attr( $sdac_ps_slideshow_border_color_override ); ?>">
+			</div>
+			<div>
+				<label>FX: <span class="info">fade</span></label> 
+				<select name="sdac_ps_fx_override">
+					<option value="<?php echo esc_attr( $sdac_ps_fx_override ); ?>"><?php echo esc_attr( $sdac_ps_fx_override ); ?></option>
+					<option value="">---</option>
+					<option value="fade">fade</option>
+					<option value="shuffle">shuffle</option>
+					<option value="zoom">zoom</option>
+					<option value="turnDown">turnDown</option>
+					<option value="turnUp">turnUp</option>
+					<option value="turnLeft">turnLeft</option>
+					<option value="turnRight">turnRight</option>
+					<option value="curtainX">curtainX</option>
+					<option value="curtainY">curtainY</option>
+					<option value="wipe">wipe</option>
+				</select>
+			</div>
+			<div>
+				<label>Timeout: <span class="info">0</span></label>
+				<input type="text" name="sdac_ps_timeout_override" class="text" value="<?php echo esc_attr( $sdac_ps_timeout_override ); ?>">
+			</div>
+			<div>
+				<label>Speed: <span class="info">1000</span></label>
+				<input type="text" name="sdac_ps_speed_override" class="text" value="<?php echo esc_attr( $sdac_ps_speed_override ); ?>">
+			</div>
+			<div>
+				<label>Pause: <span class="info">0</span></label>
+				<select name="sdac_ps_pause_override">
+					<option value="<?php echo esc_attr( $sdac_ps_pause_override ); ?>"><?php echo esc_attr( $sdac_ps_pause_override ); ?></option>
+					<option value="">---</option>
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+			</div>
+		</div>
+		<div class="sdac_ps_col">
+			<h4>Override Slide Defaults</h4>
+			<div>
+				<label>Slide Width: <span class="info">575</span></label>
 				<input type="text" name="sdac_ps_slide_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_slide_width_override ); ?>">
 			</div>
 			<div>
-				<label>Slide Height:</label>
+				<label>Slide Height: <span class="info">304</span></label>
 				<input type="text" name="sdac_ps_slide_height_override" class="text" value="<?php echo esc_attr( $sdac_ps_slide_height_override ); ?>">
 			</div>
 			<div>
-				<label>Image Width:</label>
+				<label>Image Width: <span class="info">300</span></label>
 				<input type="text" name="sdac_ps_image_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_image_width_override ); ?>">
 			</div>
-		</div>
-		<div id="right_widths">
 			<div>
-				<label>Image Height:</label>
+				<label>Image Height: <span class="info">300</span></label>
 				<input type="text" name="sdac_ps_image_height_override" class="text" value="<?php echo esc_attr( $sdac_ps_image_height_override ); ?>">
 			</div>
 			<div>
-				<label>Text Width:</label>
+				<label>Text Width: <span class="info">250</span></label>
 				<input type="text" name="sdac_ps_text_width_override" class="text" value="<?php echo esc_attr( $sdac_ps_text_width_override ); ?>">
 			</div>
-		</div>	
+		</div>
+		<div class="clearjz"></div>
 	</div>
 	<div id="add"><a href="#" class="sdac_ps_add">Add Another Slide (+)</a></div>
 		<?php if ( count($sdac_ps_title) > 0 ) : foreach ( $sdac_ps_title as $i => $title ) :  if ( $i % 2 ) $class = 'even'; else $class = 'odd'; ?>
@@ -145,6 +208,12 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 			</div>
 		</div>
 	<?php
+		wp_nonce_field( 'sdac_ps_slideshow_bg_color_override', 'sdac_ps_slideshow_bg_color_override_nonce', false );
+		wp_nonce_field( 'sdac_ps_slideshow_border_color_override', 'sdac_ps_slideshow_border_color_override_nonce', false );
+		wp_nonce_field( 'sdac_ps_fx_override', 'sdac_ps_fx_override_nonce', false );
+		wp_nonce_field( 'sdac_ps_timeout_override', 'sdac_ps_timeout_override_nonce', false );
+		wp_nonce_field( 'sdac_ps_speed_override', 'sdac_ps_speed_override_nonce', false );
+		wp_nonce_field( 'sdac_ps_pause_override', 'sdac_ps_pause_override_nonce', false );
 		wp_nonce_field( 'sdac_ps_slide_width_override', 'sdac_ps_slide_width_override_nonce', false );
 		wp_nonce_field( 'sdac_ps_slide_height_override', 'sdac_ps_slide_height_override_nonce', false );
 		wp_nonce_field( 'sdac_ps_image_width_override', 'sdac_ps_image_width_override_nonce', false );
@@ -238,6 +307,31 @@ function sdac_ps_save_meta( $post_id ) {
 	}
 	update_post_meta( $post_id, 'sdac_ps_image_url', $sdac_ps_image_url );
 	
+	$sdac_ps_slideshow_bg_color_override = wp_filter_post_kses( $_POST['sdac_ps_slideshow_bg_color_override'] );
+		if ( !add_post_meta( $post_id, 'sdac_ps_slideshow_bg_color_override', $sdac_ps_slideshow_bg_color_override, true ) ) {
+			update_post_meta( $post_id, 'sdac_ps_slideshow_bg_color_override', $sdac_ps_slideshow_bg_color_override );		
+		}
+	$sdac_ps_slideshow_border_color_override = wp_filter_post_kses( $_POST['sdac_ps_slideshow_border_color_override'] );
+		if ( !add_post_meta( $post_id, 'sdac_ps_slideshow_border_color_override', $sdac_ps_slideshow_border_color_override, true ) ) {
+			update_post_meta( $post_id, 'sdac_ps_slideshow_border_color_override', $sdac_ps_slideshow_border_color_override );		
+		}	
+	$sdac_ps_fx_override = wp_filter_post_kses( $_POST['sdac_ps_fx_override'] );
+		if ( !add_post_meta( $post_id, 'sdac_ps_fx_override', $sdac_ps_fx_override, true ) ) {
+			update_post_meta( $post_id, 'sdac_ps_fx_override', $sdac_ps_fx_override );		
+		}
+	$sdac_ps_timeout_override = absint( $_POST['sdac_ps_timeout_override'] );
+		if ( !add_post_meta( $post_id, 'sdac_ps_timeout_override', $sdac_ps_timeout_override, true ) ) {
+			update_post_meta( $post_id, 'sdac_ps_timeout_override', $sdac_ps_timeout_override );		
+		}
+	$sdac_ps_speed_override = absint( $_POST['sdac_ps_speed_override'] );
+		if ( !add_post_meta( $post_id, 'sdac_ps_speed_override', $sdac_ps_speed_override, true ) ) {
+			update_post_meta( $post_id, 'sdac_ps_speed_override', $sdac_ps_speed_override );		
+		}
+	$sdac_ps_pause_override = absint( $_POST['sdac_ps_pause_override'] );
+		if ( !add_post_meta( $post_id, 'sdac_ps_pause_override', $sdac_ps_pause_override, true ) ) {
+			update_post_meta( $post_id, 'sdac_ps_pause_override', $sdac_ps_pause_override );		
+		}
+	
 	$sdac_ps_slide_width_override = absint( $_POST['sdac_ps_slide_width_override'] );
 		if ( !add_post_meta( $post_id, 'sdac_ps_slide_width_override', $sdac_ps_slide_width_override, true ) ) {
 			update_post_meta( $post_id, 'sdac_ps_slide_width_override', $sdac_ps_slide_width_override );		
@@ -268,8 +362,7 @@ function sdac_ps_load_css_js() {
 	global $wp_query; 
 	if ( !empty($wp_query->posts) ) { 
 		foreach ( $wp_query->posts as $post ) { 
-			if ( preg_match("#\[post-slidesho[^\]]*\]#is", $post->post_content ) ) {
-				wp_enqueue_style( 'sdac-post-css', plugins_url( 'css/sdac-ps_post.css', __FILE__ ) );
+			if ( preg_match("#\[post-slideshow[^\]]*\]#is", $post->post_content ) ) {
 				wp_enqueue_script( 'jquery' );
 				wp_enqueue_script( 'jquery-cycle', plugins_url( 'js/jquery.cycle.min.js', __FILE__ ) );
    				add_action( 'wp_head', 'sdac_ps_wp_head' );
@@ -279,66 +372,153 @@ function sdac_ps_load_css_js() {
 }
 
 
-# CREATE THE NEEDED JS FOR THE SLIDESHOW
+# CREATE THE NEEDED JS/CSS FOR THE SLIDESHOW
 function sdac_ps_wp_head() {
-	global $post;
-	// Add in JS for Cycle
+	// Add in CSS Overrides (if any)
 	echo '
+		<!-- Slideshow CSS -->
+		<style type="text/css">
+			.sdac_ps_nav {margin:10px 0 10px 0;}
+			.sdac_ps_nav a {border: 1px solid #ccc; background: #eee; text-decoration: none; margin: 0 5px 0 0; padding: 3px 5px 3px 5px;}
+			.sdac_ps_nav a.activeSlide {background: #ddd;}
+			.sdac_ps_nav a:focus {outline: none;}
+		</style>
+		<script type="text/javascript">var sdac_post_slideshows = new Array();</script>
+		';
+}
+
+# CREATE JS NEEDED FOR CUSTOM CYCLE
+add_filter( 'the_content', 'sdac_ps_content_js' );
+function sdac_ps_content_js( $content ) {
+	global $post;
+	// Set Defaults
+	if ( get_post_meta( $post->ID, 'sdac_ps_fx_override', true) ) {
+		$fx = esc_attr( get_post_meta($post->ID, 'sdac_ps_fx_override', true) );
+	} else {
+		$fx = 'fade';
+	}
+	if ( get_post_meta( $post->ID, 'sdac_ps_timeout_override', true) ) {
+		$timeout = esc_attr( get_post_meta($post->ID, 'sdac_ps_timeout_override', true) );
+	} else {
+		$timeout = 0;
+	}
+	if ( get_post_meta( $post->ID, 'sdac_ps_speed_override', true) ) {
+		$speed = absint( get_post_meta($post->ID, 'sdac_ps_speed_override', true) );
+	} else {
+		$speed = 1000;
+	}
+	if ( get_post_meta( $post->ID, 'sdac_ps_pause_override', true) ) {
+		$pause = absint( get_post_meta($post->ID, 'sdac_ps_pause_override', true) );
+	} else {
+		$pause = 0;
+	}
+	$content .= '<script type="text/javascript">sdac_post_slideshows.push({fx: \''.$fx.'\', timeout: '.$timeout.', speed: '.$speed.', pause: '.$pause.',})</script>';
+	static $returned_slideshow_js = null;
+	if ( $returned_slideshow_js )
+		return $content;
+	// Add in JS for Cycle
+	$content .= '
+		<!-- Slideshow JS -->
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
-				$(".sdac_ps").cycle({ 
-    				timeout: 0, 
-    				pager:  \'.sdac_ps_nav\' 
-				});
-			});
+				$(".sdac_ps").each(function(idx, ele) {
+        			var $nav = $(\'<div class="sdac_ps_nav"></div>\').insertAfter(this);
+        			$(this).cycle({
+            			fx: sdac_post_slideshows[idx].fx,
+            			timeout: sdac_post_slideshows[idx].timeout,
+            			speed: sdac_post_slideshows[idx].speed,
+            			pause: sdac_post_slideshows[idx].pause,
+            			pager:  $nav
+            		});
+       		 	});
+    		});
 		</script>
 		';
-	// Add in CSS Overrides (if any)
-	if ( get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ) || get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ) || get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ) || get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ) || get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ) ) {
-		if ( get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_slide {width:'.absint( get_post_meta( $post->ID, 'sdac_ps_slide_width_override', true ) ).'px !important;}
-			';
-		}
-		if ( get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_slide {height:'.absint( get_post_meta( $post->ID, 'sdac_ps_slide_height_override', true ) ).'px !important;}
-			';
-		}
-		if ( get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_image {width:'.absint( get_post_meta( $post->ID, 'sdac_ps_image_width_override', true ) ).'px !important;}
-			';
-		}
-		if ( get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_image {height:'.absint( get_post_meta( $post->ID, 'sdac_ps_image_height_override', true ) ).'px !important;}
-			';
-		}
-		if ( get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ) ) {
-			$style .= '.sdac_ps .sdac_ps_text {width:'.absint( get_post_meta( $post->ID, 'sdac_ps_text_width_override', true ) ).'px !important;}
-			';
-		}
-		echo '<style type="text/css">
-				'.$style.'
-			</style>
-			';
-	}		
-		
+	$returned_slideshow_js = true;
+	return $content;	
 }
 
 # CREATE THE SHORTCODE OUTPUT
 add_shortcode( 'post-slideshow', 'sdac_ps_output' );
-function sdac_ps_output() {
-	global $post;
-	$slides ='';
-	if ( get_post_meta($post->ID, 'sdac_ps_title', true) ) {
-		foreach ( get_post_meta($post->ID, 'sdac_ps_title', true ) as $i => $title ) {
-			$excerpt = get_post_meta($post->ID, 'sdac_ps_excerpt', true );
-			$url = get_post_meta( $post->ID, 'sdac_ps_url', true );
-			$image_url = get_post_meta( $post->ID, 'sdac_ps_image_url', true );
+function sdac_ps_output( $atts ) {
+	extract( shortcode_atts( array(
+		'post_id' =>  get_the_ID(),
+		'timeout' =>  0,
+		'fx' => 'fade',
+		'speed' => 1000,
+		'pause' => 0
+	), $atts ) );
+	if ( get_post_meta($post_id, 'sdac_ps_title', true) ) {
+		// Slideshow Style
+		$slideshow_style = 'overflow:hidden;';
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slide_width_override', true ) ) {
+ 			$slideshow_style .= 'width:'.absint( get_post_meta( $post_id, 'sdac_ps_slide_width_override', true ) ).'px;';
+ 		} else {
+ 			$slideshow_style .='width:575px;';
+ 		}	
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slide_height_override', true ) ) {
+ 			$slideshow_style .= 'height:'.absint( get_post_meta( $post_id, 'sdac_ps_slide_height_override', true ) ).'px;';
+ 		} else {
+ 			$slideshow_style .='height:304px;';
+ 		}
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slideshow_bg_color_override', true ) ) {
+ 			$slideshow_style .= 'background:'.esc_attr( get_post_meta( $post_id, 'sdac_ps_slideshow_bg_color_override', true ) ).';';	
+ 		} else {
+ 			$slideshow_style .='background:#ddd;';
+ 		}
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slideshow_border_color_override', true ) ) {
+ 			$slideshow_style .= 'border:1px solid '.esc_attr( get_post_meta( $post_id, 'sdac_ps_slideshow_border_color_override', true ) ).';';	
+ 		} else {
+ 			$slideshow_style .= 'border:1px solid #bbb;';
+ 		}
+ 		// Slide Style
+ 		$slide_style = 'overflow:hidden;padding:2px;';
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slide_width_override', true ) ) {
+ 			$slide_style .= 'width:'.absint( get_post_meta( $post_id, 'sdac_ps_slide_width_override', true ) ).'px;';
+ 		} else {
+ 			$slide_style .= 'width:575px';
+ 		}
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slide_height_override', true ) ) {
+ 			$slide_style .= 'height:'.absint( get_post_meta( $post_id, 'sdac_ps_slide_height_override', true ) ).'px;';
+ 		} else {
+ 			$slide_style .= 'height:304px;';
+ 		}
+ 		// Slide Image
+ 		$slide_image_style = 'float:left;display:inline;margin-right:15px;overflow:hidden;';
+ 		if ( get_post_meta( $post_id, 'sdac_ps_image_width_override', true ) ) {
+ 			$slide_image_style .= 'width:'.absint( get_post_meta( $post_id, 'sdac_ps_image_width_override', true ) ).'px;';
+ 		} else {
+ 			$slide_image_style .= 'width:300px;';
+ 		}
+ 		if ( get_post_meta( $post_id, 'sdac_ps_image_width_override', true ) ) {
+ 			$slide_image_style .= 'height:'.absint( get_post_meta( $post_id, 'sdac_ps_image_width_override', true ) ).'px;';
+ 		} else {
+ 			$slide_image_style .= 'height:300px;';
+ 		}
+ 		// Slide Text
+ 		$slide_text_style = 'float:left;display:inline;';
+ 		if ( get_post_meta( $post_id, 'sdac_ps_text_width_override', true ) ) {
+ 			$slide_text_style .= 'width:'.absint( get_post_meta( $post_id, 'sdac_ps_text_width_override', true ) ).'px;';
+ 		} else {
+ 			$slide_text_style .= 'width:250px;';
+ 		}
+ 		if ( get_post_meta( $post_id, 'sdac_ps_slide_height_override', true ) ) {
+ 			$slide_text_style .= 'height:'.absint( get_post_meta( $post_id, 'sdac_ps_slide_height_override', true ) ).'px;';
+ 		} else {
+ 			$slide_text_style .= 'height:304px;';
+ 		}	
+		$slides ='';
+		foreach ( get_post_meta( $post_id, 'sdac_ps_title', true ) as $i => $title ) {
+			$excerpt = get_post_meta( $post_id, 'sdac_ps_excerpt', true );
+			$url = get_post_meta( $post_id, 'sdac_ps_url', true );
+			$image_url = get_post_meta( $post_id, 'sdac_ps_image_url', true );
+
  			$slides .= '
- 				<div class="sdac_ps_slide">
- 					<div class="sdac_ps_image">
+ 				<div class="sdac_ps_slide" style="'.$slide_style.'">
+ 					<div class="sdac_ps_image" style="'.$slide_image_style.'">
  						<img src="'.esc_url( $image_url[$i] ).'" alt="'.esc_attr( $title ).'" />
  					</div>
- 					<div class="sdac_ps_text">
+ 					<div class="sdac_ps_text" style="'.$slide_text_style.'">
  					';
  					if ( $url[$i] ) { 
  						$slides .= '<h3><a href="'.esc_url( $url[$i] ).'">'.esc_attr( $title ).'</a></h3>';
@@ -351,10 +531,9 @@ function sdac_ps_output() {
  		}
  	}
     $output = '
-    	<div class="sdac_ps">
+    	<div class="sdac_ps" style="'.$slideshow_style.'">
     		'.$slides.'
     	</div>
-    	<div class="sdac_ps_nav"></div>
     	';
     
 	return $output;
