@@ -1,5 +1,6 @@
 /* Custom Admin CSS for SDAC Post Slideshows */
 
+
 #sdac_ps label {width:25%;float:left;font-weight:bold;margin-right:10px;}
 #sdac_ps input.text, #sdac_ps textarea.text {padding:3px;border:1px solid #ccc;width:65%;}
 #sdac_ps #add {float:right;font-weight:bold;font-size:1.1em;text-transform:uppercase;height:25px;}
@@ -7,13 +8,17 @@
 #sdac_ps .sdac_ps_field {clear:both;border:1px solid #ccc;padding: 0 10px 10px 10px;}
 #sdac_ps .sdac_ps_field.even {background: #eee;}
 
-#sdac_ps .sdac_ps_field h4 {text-transform:uppercase;font-size:1.1em}
+#sdac_ps h4 {text-transform:uppercase;font-size:1.1em;margin:0 0 5px 0;padding:0;}
+
 
 #sdac_ps .sdac_ps_field div {margin-top:5px;padding-top:5px;border-top:1px solid #ddd;}
+#sdac_ps .sdac_ps_field h4 {margin:10px 0 10px 0;}
 
-#sdac_ps #sdac_ps_general {float:left;border-bottom:1px dashed #ccc;width:100%;margin-bottom:10px;}
+#sdac_ps #sdac_ps_general {border-bottom:1px dashed #ccc;width:100%;margin-bottom:10px;}
+#sdac_ps #sdac_ps_general .info {color:#666;font-weight:normal;}
 #sdac_ps #sdac_ps_general div {height:32px;line-height:32px;}
-#sdac_ps #sdac_ps_general div label {width:80px;}
-#sdac_ps #sdac_ps_general div input {width:50px;}
-#sdac_ps #sdac_ps_general div#left_widths {float:left;display:inline;width:160px;height:100px;}
-#sdac_ps #sdac_ps_general div#right_widths {float:left;display:inline;}
+#sdac_ps #sdac_ps_general div label {width:150px;}
+#sdac_ps #sdac_ps_general div input, #sdac_ps #sdac_ps_general div select {width:90px;}
+#sdac_ps #sdac_ps_general div.sdac_ps_col{float:left;display:inline;width:280px;margin-right:10px;height:auto;}
+
+#sdac_ps .clearjz {clear:both;height:1px;border:0;}

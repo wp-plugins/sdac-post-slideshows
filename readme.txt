@@ -3,7 +3,7 @@ Tags: slideshow, slideshows, post slideshow, jQuery, jQuery Cycle, cycle, shortc
 Contributors: jenz
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 1.0.2
+Stable tag: 1.1
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4761649
 
 Highly customizable slideshows for your posts and pages using jQuery Cycle.
@@ -36,6 +36,8 @@ As many as you want - just add more as needed.
 = Can I use just images in the slideshow or just text?
 Yes - just fill in the information you need when creating a slide and set the appropriate widths in the general settings.
 
+= How can I use this within my WordPress template?
+You can use the WordPress function do_shortcode([post_slideshow post_id="1"]) (Post ID is the ID of the post you want to use)
 
 == Screenshots ==
 
@@ -45,6 +47,13 @@ Yes - just fill in the information you need when creating a slide and set the ap
 
 
 == Changelog ==
+= 1.1 =
+* (February 23, 2011)
+* Exposed jQuery options for fx, timeout, speed, pause
+* Add new options to change background color and border for slides
+* Moved the Cycle JS within the_content
+* Added post_id parameter so you can add a post slideshow outside of the actual post
+
 = 1.0.2 =
 * (February 7, 2011)
 * Fixed an undefined index error
@@ -64,8 +73,11 @@ Yes - just fill in the information you need when creating a slide and set the ap
 
 == Upgrade Notice ==
 
+ = 1.1 =
+A number of new options are available.
+
  = 1.0.2 =
-Slideshows now are available on pages
+Slideshows now are available on pages.
 
  = 1.0.1 =
 Minor Updates
