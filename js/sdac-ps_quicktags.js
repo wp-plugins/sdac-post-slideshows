@@ -1,6 +1,6 @@
 edButtons[edButtons.length] =
-new edButton('post-slideshow'
-,'post-slideshow'
+new edButton('slideshow'
+,'slideshow'
 ,'[post-slideshow]'
 ,''
 ,''

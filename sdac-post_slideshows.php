@@ -5,7 +5,7 @@ Plugin URI: http://www.sandboxdev.com
 Description: SDAC Post Slideshow
 Author: Jennifer Zelazny/SDAC Inc.
 Author URI: http://www.sandboxdev.com
-Version: 1.1
+Version: 1.1.1
 ---------------------------------------------------
 Released under the GPL license
 http://www.opensource.org/licenses/gpl-license.php
@@ -207,6 +207,7 @@ function sdac_ps_meta_box( $post, $meta_box ) {
 				<a class="sdac_ps_remove" href="#">Remove (-)</a>
 			</div>
 		</div>
+	</div>	
 	<?php
 		wp_nonce_field( 'sdac_ps_slideshow_bg_color_override', 'sdac_ps_slideshow_bg_color_override_nonce', false );
 		wp_nonce_field( 'sdac_ps_slideshow_border_color_override', 'sdac_ps_slideshow_border_color_override_nonce', false );
