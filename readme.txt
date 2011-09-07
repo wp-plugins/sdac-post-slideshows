@@ -2,8 +2,8 @@
 Tags: slideshow, slideshows, post slideshow, jQuery, jQuery Cycle, cycle, shortcode
 Contributors: jenz
 Requires at least: 2.8
-Tested up to: 3.1
-Stable tag: 1.1.2
+Tested up to: 3.2.1
+Stable tag: 1.1.3
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4761649
 
 Highly customizable slideshows for your posts and pages using jQuery Cycle.
@@ -47,6 +47,10 @@ You can use the WordPress function do_shortcode([post_slideshow post_id="1"]) (P
 
 
 == Changelog ==
+= 1.1.3 =
+* (September 7, 2011)
+* Fixed an incorrect height setting
+
 = 1.1.2 =
 * (May 18, 2011)
 * Fixed a UI Issue (div)

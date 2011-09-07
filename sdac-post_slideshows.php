@@ -5,7 +5,7 @@ Plugin URI: http://www.sandboxdev.com
 Description: SDAC Post Slideshow
 Author: Jennifer Zelazny/SDAC Inc.
 Author URI: http://www.sandboxdev.com
-Version: 1.1.2
+Version: 1.1.3
 ---------------------------------------------------
 Released under the GPL license
 http://www.opensource.org/licenses/gpl-license.php
@@ -364,7 +364,7 @@ function sdac_ps_load_css_js() {
 	if ( !empty($wp_query->posts) ) { 
 		foreach ( $wp_query->posts as $post ) { 
 			if ( preg_match("#\[post-slideshow[^\]]*\]#is", $post->post_content ) ) {
-				wp_enqueue_script( 'jquery' );
+   				wp_enqueue_script( 'jquery' );
 				wp_enqueue_script( 'jquery-cycle', plugins_url( 'js/jquery.cycle.min.js', __FILE__ ) );
    				add_action( 'wp_head', 'sdac_ps_wp_head' );
      		} 
@@ -377,13 +377,14 @@ function sdac_ps_load_css_js() {
 function sdac_ps_wp_head() {
 	// Add in CSS Overrides (if any)
 	echo '
-		<!-- Slideshow CSS -->
+		<!-- Start Slideshow CSS -->
 		<style type="text/css">
 			.sdac_ps_nav {margin:10px 0 10px 0;}
 			.sdac_ps_nav a {border: 1px solid #ccc; background: #eee; text-decoration: none; margin: 0 5px 0 0; padding: 3px 5px 3px 5px;}
 			.sdac_ps_nav a.activeSlide {background: #ddd;}
 			.sdac_ps_nav a:focus {outline: none;}
 		</style>
+		<!-- End Slideshow CSS -->
 		<script type="text/javascript">var sdac_post_slideshows = new Array();</script>
 		';
 }
@@ -419,7 +420,7 @@ function sdac_ps_content_js( $content ) {
 		return $content;
 	// Add in JS for Cycle
 	$content .= '
-		<!-- Slideshow JS -->
+		<!-- Start Slideshow JS -->
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
 				$(".sdac_ps").each(function(idx, ele) {
@@ -434,6 +435,7 @@ function sdac_ps_content_js( $content ) {
        		 	});
     		});
 		</script>
+		<!-- End Slideshow JS -->
 		';
 	$returned_slideshow_js = true;
 	return $content;	
@@ -491,8 +493,8 @@ function sdac_ps_output( $atts ) {
  		} else {
  			$slide_image_style .= 'width:300px;';
  		}
- 		if ( get_post_meta( $post_id, 'sdac_ps_image_width_override', true ) ) {
- 			$slide_image_style .= 'height:'.absint( get_post_meta( $post_id, 'sdac_ps_image_width_override', true ) ).'px;';
+ 		if ( get_post_meta( $post_id, 'sdac_ps_image_height_override', true ) ) {
+ 			$slide_image_style .= 'height:'.absint( get_post_meta( $post_id, 'sdac_ps_image_height_override', true ) ).'px;';
  		} else {
  			$slide_image_style .= 'height:300px;';
  		}
